@@ -3,8 +3,8 @@ class ruleError(Exception):
 
 class rule:
     def __init__(self,lhs,rhs,support,confidence):
-        self.lhs = sorted(lhs)
-        self.rhs = sorted(rhs)
+        self.lhs = set(lhs)
+        self.rhs = set(rhs)
         self.support = support
         self.confidence = confidence
     
@@ -15,7 +15,7 @@ class rule:
         return f"{self.lhs} ==> {self.rhs}"
     
     def isMatched(self,lhs):
-        if sorted(lhs) == self.lhs:
+        if self.lhs.issubset(set(lhs)):
             return True
         else:
             return False

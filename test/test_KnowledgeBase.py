@@ -10,8 +10,10 @@ class TestKnowledgeBase(unittest.TestCase):
         self.kb = KnowledgeBase([self.ab,self.ac,self.bc])
     
     def test_apply(self):
-        self.assertEqual(list(self.kb.apply(['a'])),[['b'],['c']])
-        self.assertEqual(list(self.kb.apply(['b'])),[['c']])
+        self.assertEqual(list(self.kb.apply(['a'])),[{'b'},{'c'}])
+        self.assertEqual(list(self.kb.apply(['a','b'])),[{'b'},{'c'},{'c'}])
+        self.assertEqual(list(self.kb.apply(['b'])),[{'c'}])
+        self.assertEqual(list(self.kb.apply(['b','c'])),[{'c'}])
         self.assertEqual(list(self.kb.apply(['c'])),[])
     
     def test_matchedRules(self):
