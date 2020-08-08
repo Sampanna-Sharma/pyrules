@@ -4,7 +4,9 @@ from functools import reduce
 from itertools import combinations,chain
 
 class ItemSet:
-    def __init__(self,comb,vtid):
+    
+    def __init__(self,comb,vtid,minsup):
+        self.minsup = minsup
         self.itemSet = self.to_itemSet(comb,vtid)
     
     def __str__(self):
@@ -13,7 +15,9 @@ class ItemSet:
     def to_itemSet(self,comb,vtid):
         itemSet = defaultdict(int)
         for item in comb:
-            itemSet[item] = sum(vtid[item])
+            support = sum(vtid[item])
+            if support >= self.minsup:
+                itemSet[item] = support 
         return itemSet
 
 class Vtid:
@@ -40,7 +44,7 @@ class Apriori:
     def run(self):
         arr = self.vtid.vocab
         comb1 = chain(*[combinations(arr,i + 1)for i, a in enumerate(arr)])
-        itemset = ItemSet(comb1,self.vtid)
+        itemset = ItemSet(comb1,self.vtid,self.minsup)
         return itemset
 
 if __name__ == "__main__":
@@ -54,6 +58,6 @@ if __name__ == "__main__":
             ['beer', 'milk'],
             ['mango', 'milk']
         ]
-    ap = Apriori(tidList,0.1)
+    ap = Apriori(tidList,1)
     results = ap.run()
     print(results)
