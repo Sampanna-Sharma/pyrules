@@ -1,6 +1,7 @@
 import numpy as np
 from collections import defaultdict
 from functools import reduce
+import operator
 from itertools import combinations,chain
 
 class ItemSet:
@@ -22,7 +23,7 @@ class ItemSet:
 
 class Vtid:
     def __init__(self,tidList):
-        self.vocab = np.unique(sum(tidList,[]))
+        self.vocab = np.unique(reduce(operator.iconcat, tidList, []))
         self.vtid = self.to_vtid(tidList)
     
     def to_vtid(self,tidList):
